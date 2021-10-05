@@ -1,0 +1,51 @@
+DATABASE C:\Program Files\USGS\phreeqc-3.7.0-15749-x64\database\Stimela.dat
+SOLUTION_MASTER_SPECIES
+	Turb		Turb	0.0	Turb		1.0
+	Doc		Doc	0.0	Doc		12.0111
+	Uvab		Uvab	0.0	Uvab		1.0
+SOLUTION_SPECIES
+	Turb	= Turb
+	Doc	= Doc
+	Uvab	= Uvab
+PRINT
+	alkalinity		true
+SELECTED_OUTPUT 1
+	-file			output/selected.csv
+	-reset			false
+	-high_precision 	true
+	-simulation		true
+	-state			true
+	-solution		true
+	-step			true
+	-ph			true
+	-pe			true
+	-temperature		true
+	-alkalinity		true
+	-totals			C   Ca Mg Al Fe  Mn  S  P Na Cl
+	-totals			[N-3] N(3) N(5) K F Si
+	-totals			Turb Doc Uvab
+	-molalities		O2  Oxg  CO2  HCO3-  CO3-2  Ca+2  CaHCO3+  CaCO3  CaSO4  Mg+2  MgHCO3+ MgCO3 MgSO4 SO4-2  NaHCO3  NaCO3- H+ OH-  PO4-3 HPO4-2 H2PO4-
+	-saturation_indices	Calcite Aragonite  Gypsum  Anhydrite  Dolomite Hydroxyapatite
+	-saturation_indices	O2(g)  Ntg(g)  CO2(g)  H2O(g)  Oxg(g)
+USER_PUNCH
+	headings	Ion_Str  Conduct  Rho   TotWat   Charge_Err   Charge_Bal   Cation  Anion pO2 pNtg pCO2 pH2O CCPP Desc
+	start
+		10	PUNCH MU
+		20	PUNCH SC/10
+		30	PUNCH RHO
+		40 	PUNCH TOT("water")
+		50	PUNCH PERCENT_ERROR
+		60	PUNCH CHARGE_BALANCE
+		70	Anion = ( TOT("charge")/(PERCENT_ERROR/100) - TOT("charge") )/2
+		80	PUNCH ( Anion + TOT("charge") )
+		90	PUNCH Anion
+		100	PUNCH PR_P("O2(g)") PR_P("Ntg(g)") PR_P("CO2(g)") PR_P("H2O(g)")
+		110	PUNCH EQUI_DELTA("Calcite")/TOT("water")
+		120	PUNCH DESCRIPTION
+	End
+SOLUTION_SPREAD	
+	units	mg/L
+	redox		O(-2)/O(0)								
+	water    		1
+number	temp	pH	O(0)	Turb	Uvab	Si	Doc	Ca	Mg	Na	K	Al	Fe	Mn	[N-3]	Alkalinity	Cl	N(+5)	[N+3]	S(6)	F	P 	density	Oxg	Ntg
+	 	 	as O			as Si	as C	as Ca	as Mg	as Na	as K	ug/l as Al	as Fe	as Mn	as N	as HCO3	as Cl	as N	as N	as SO4	as F	ug/l as P
